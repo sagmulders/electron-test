@@ -6,6 +6,8 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow
 const ipcMain = electron.ipcMain
 
+const Menu = electron.Menu
+
 let mainWindow
 
 app.on('ready', _ => {
@@ -20,6 +22,17 @@ app.on('ready', _ => {
         console.log('closed!');
         mainWindow=null;
     });
+
+    const name = electron.app.getName()
+    const template = [
+        {
+            label: name,
+            submenu: [{label: `About ${name}`}]
+        }
+    ];
+
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
 });
 
 ipcMain.on('countdown-start', _ => {
